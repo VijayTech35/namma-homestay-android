@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
             handleBottomNav(item, bottomNav)
         }
 
+        handleAutoNavigate()
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.splashFragment,
@@ -66,32 +68,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleAutoNavigate() {
+        val role = intent?.getStringExtra("auto_role")
+        if (!role.isNullOrBlank()) {
+            val dest = when (role) {
+                "guest" -> R.id.guestHomeFragment
+                "host" -> R.id.hostDashboardFragment
+                "admin" -> R.id.adminPanelFragment
+                else -> return
+            }
+            navController.navigate(dest)
+        }
+    }
+
     private fun handleBottomNav(item: MenuItem, bottomNav: BottomNavigationView): Boolean {
         return when (item.itemId) {
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
                 sessionManager.clearSession()
-                navController.navigate(R.id.splashFragment) {
-                    popUpTo(0) { inclusive = true }
-                }
+                navController.navigate(R.id.splashFragment)
                 true
             }
             R.id.guestHomeFragment -> {
-                navController.navigate(R.id.guestHomeFragment) {
-                    popUpTo(R.id.splashFragment) { inclusive = false }
-                }
+                navController.navigate(R.id.guestHomeFragment)
                 true
             }
             R.id.hostDashboardFragment -> {
-                navController.navigate(R.id.hostDashboardFragment) {
-                    popUpTo(R.id.splashFragment) { inclusive = false }
-                }
+                navController.navigate(R.id.hostDashboardFragment)
                 true
             }
             R.id.adminPanelFragment -> {
-                navController.navigate(R.id.adminPanelFragment) {
-                    popUpTo(R.id.splashFragment) { inclusive = false }
-                }
+                navController.navigate(R.id.adminPanelFragment)
                 true
             }
             R.id.inquiriesFragment -> {

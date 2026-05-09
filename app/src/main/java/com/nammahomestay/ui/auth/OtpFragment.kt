@@ -76,6 +76,7 @@ class OtpFragment : Fragment() {
         binding.btnResend.isEnabled = false
 
         authRepository.sendOtp(
+            activity = requireActivity(),
             phoneNumber = phone,
             onCodeSent = { newVerificationId ->
                 verificationId = newVerificationId

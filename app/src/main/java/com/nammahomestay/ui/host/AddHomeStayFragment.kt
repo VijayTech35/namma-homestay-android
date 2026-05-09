@@ -19,6 +19,7 @@ import com.nammahomestay.databinding.FragmentAddHomeStayBinding
 import com.nammahomestay.utils.SessionManager
 import com.nammahomestay.utils.ValidationUtils
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class AddHomeStayFragment : Fragment() {
 
@@ -77,7 +78,7 @@ class AddHomeStayFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val doc = com.google.firebase.firestore.FirebaseFirestore.getInstance()
-                    .collection("homestays").document(id).get()
+                    .collection("homestays").document(id).get().await()
                 val data = doc.data
                 if (data != null) {
                     val homestay = HomeStay.fromMap(data)

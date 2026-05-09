@@ -27,6 +27,7 @@ class GuestHomeFragment : Fragment() {
     private val repository = HomeStayRepository()
     private lateinit var sessionManager: SessionManager
     private var allHomeStays: List<HomeStay> = emptyList()
+    private var searchJob: kotlinx.coroutines.Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +44,22 @@ class GuestHomeFragment : Fragment() {
         setupRecyclerView()
         setupSwipeRefresh()
         setupFilterChips()
+        setupSearch()
         loadHomeStays()
 
         binding.fabFilter.setOnClickListener {
             showFilterDialog()
+        }
+
+        binding.toolbar.inflateMenu(R.menu.guest_toolbar_menu)
+        binding.toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.action_settings -> {
+                    findNavController().navigate(R.id.action_guestHome_to_settings)
+                    true
+                }
+                else -> false
+            }
         }
     }
 
@@ -98,6 +111,30 @@ class GuestHomeFragment : Fragment() {
     private fun updateChipSelection(selected: Chip) {
         val chips = listOf(binding.chipAll, binding.chipAvailable, binding.chipVerified, binding.chipLowPrice)
         chips.forEach { it.isChecked = it == selected }
+    }
+
+    private fun setupSearch() {
+        binding.searchView.editText?.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) {
+                searchJob?.cancel()
+                val query = s?.toString()?.trim() ?: ""
+                if (query.length < 2) {
+                    loadHomeStays()
+                    return
+                }
+                searchJob = lifecycleScope.launch {
+                    kotlinx.coroutines.delay(300)
+                    val result = repository.searchHomeStays(query)
+                    result.onSuccess { homestays ->
+                        allHomeStays = homestays
+                        adapter.submitList(homestays)
+                        updateUI(homestays)
+                    }
+                }
+            }
+        })
     }
 
     private fun loadHomeStays() {

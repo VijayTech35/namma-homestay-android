@@ -54,6 +54,10 @@ class SessionManager(context: Context) {
         }
     }
 
+    var isDarkMode: Boolean
+        get() = prefs.getBoolean(KEY_DARK_MODE, false)
+        set(value) = prefs.edit().putBoolean(KEY_DARK_MODE, value).apply()
+
     fun clearSession() {
         prefs.edit().clear().apply()
     }
@@ -65,5 +69,6 @@ class SessionManager(context: Context) {
         private const val KEY_USER_PHONE = "user_phone"
         private const val KEY_USER_NAME = "user_name"
         private const val KEY_USER_ROLE = "user_role"
+        private const val KEY_DARK_MODE = "is_dark_mode"
     }
 }

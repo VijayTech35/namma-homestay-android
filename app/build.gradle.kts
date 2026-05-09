@@ -30,8 +30,6 @@ android {
         }
         debug {
             isMinifyEnabled = false
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
         }
     }
 
@@ -86,6 +84,9 @@ dependencies {
 
     // Coil (Image Loading)
     implementation("io.coil-kt:coil:2.6.0")
+
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")

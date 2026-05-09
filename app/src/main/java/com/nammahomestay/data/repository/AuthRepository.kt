@@ -1,8 +1,14 @@
 package com.nammahomestay.data.repository
 
+import android.app.Activity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
@@ -20,12 +26,32 @@ class AuthRepository {
     private val auth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
 
+    fun getGoogleSignInClient(activity: Activity): GoogleSignInClient {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(Constants.GOOGLE_WEB_CLIENT_ID)
+            .requestEmail()
+            .build()
+        return GoogleSignIn.getClient(activity, gso)
+    }
+
+    suspend fun signInWithGoogle(idToken: String): Result<Unit> {
+        return try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            auth.signInWithCredential(credential).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     fun sendOtp(
+        activity: Activity,
         phoneNumber: String,
         onCodeSent: (String) -> Unit,
         onError: (String) -> Unit
     ) {
         val options = PhoneAuthOptions.newBuilder(auth)
+            .setActivity(activity)
             .setPhoneNumber(phoneNumber)
             .setTimeout(60L, TimeUnit.SECONDS)
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {

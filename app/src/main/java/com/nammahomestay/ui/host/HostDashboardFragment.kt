@@ -55,6 +55,10 @@ class HostDashboardFragment : Fragment() {
         binding.btnAddGuidePlace.setOnClickListener {
             findNavController().navigate(R.id.action_hostDashboard_to_addGuidePlace)
         }
+
+        binding.btnSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_hostDashboard_to_settings)
+        }
     }
 
     private fun setupRecyclerView() {

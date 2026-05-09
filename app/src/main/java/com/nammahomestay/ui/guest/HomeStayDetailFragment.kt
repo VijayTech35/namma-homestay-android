@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,6 +17,7 @@ import com.nammahomestay.adapter.GuidePlaceAdapter
 import com.nammahomestay.data.model.HomeStay
 import com.nammahomestay.data.repository.GuideRepository
 import com.nammahomestay.data.repository.HomeStayRepository
+import com.nammahomestay.data.repository.FavoriteRepository
 import com.nammahomestay.data.repository.MenuRepository
 import com.nammahomestay.databinding.FragmentHomeStayDetailBinding
 import com.nammahomestay.utils.Constants
@@ -23,6 +25,7 @@ import com.nammahomestay.utils.SessionManager
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class HomeStayDetailFragment : Fragment() {
 
@@ -31,6 +34,8 @@ class HomeStayDetailFragment : Fragment() {
     private val homestayRepository = HomeStayRepository()
     private val menuRepository = MenuRepository()
     private val guideRepository = GuideRepository()
+    private val favoriteRepository = FavoriteRepository()
+    private var isFavorited = false
     private lateinit var sessionManager: SessionManager
     private var homestay: HomeStay? = null
     private lateinit var placeAdapter: GuidePlaceAdapter
@@ -60,6 +65,14 @@ class HomeStayDetailFragment : Fragment() {
         binding.btnOpenMaps.setOnClickListener {
             openInGoogleMaps()
         }
+
+        binding.btnFavorite.setOnClickListener {
+            toggleFavoriteAction()
+        }
+
+        binding.btnShare.setOnClickListener {
+            shareHomeStay()
+        }
     }
 
     private fun setupGuideRecyclerView() {
@@ -79,10 +92,12 @@ class HomeStayDetailFragment : Fragment() {
                     .collection(Constants.HOMESTAYS_COLLECTION)
                     .document(homestayId)
                     .get()
+                    .await()
                 val data = doc.data
                 if (data != null) {
                     homestay = HomeStay.fromMap(data)
                     bindHomeStayData(homestay!!)
+                    checkFavoriteStatus(homestayId)
                 }
             } catch (e: Exception) {
                 Snackbar.make(binding.root, "Failed to load details", Snackbar.LENGTH_SHORT).show()
@@ -119,6 +134,53 @@ class HomeStayDetailFragment : Fragment() {
                 placeholder(R.drawable.placeholder_image)
                 error(R.drawable.placeholder_image)
             }
+        }
+    }
+
+    private fun checkFavoriteStatus(homestayId: String) {
+        lifecycleScope.launch {
+            try {
+                val favorited = favoriteRepository.isFavorite(sessionManager.userId, homestayId)
+                isFavorited = favorited
+                val icon = if (favorited) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border
+                binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(), icon))
+            } catch (e: Exception) {
+                binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_favorite_border))
+            }
+        }
+    }
+
+    private fun toggleFavoriteAction() {
+        val homestayId = homestay?.id ?: return
+        lifecycleScope.launch {
+            try {
+                val result = favoriteRepository.toggleFavorite(sessionManager.userId, homestayId)
+                result.onSuccess { added ->
+                    isFavorited = added
+                    val icon = if (added) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border
+                    binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(), icon))
+                }.onFailure {
+                    Snackbar.make(binding.root, "Failed to update favorite", Snackbar.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Snackbar.make(binding.root, "Error: ${e.message}", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun shareHomeStay() {
+        homestay?.let { h ->
+            val shareText = """
+Check out this HomeStay: ${h.name}
+📍 Location: ${h.location}
+💰 Price: ₹${String.format("%.0f", h.rate)}/night
+${h.description}
+            """.trimIndent()
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, shareText)
+            }
+            startActivity(Intent.createChooser(shareIntent, "Share HomeStay"))
         }
     }
 

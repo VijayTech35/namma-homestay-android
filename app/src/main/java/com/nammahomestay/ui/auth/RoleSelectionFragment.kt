@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,6 +23,10 @@ class RoleSelectionFragment : Fragment() {
     private val authRepository = AuthRepository()
     private lateinit var sessionManager: SessionManager
     private var selectedRole: String = ""
+    private var phone: String = ""
+    private var googleUid: String = ""
+    private var googleName: String = ""
+    private var googleEmail: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +40,10 @@ class RoleSelectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
 
-        val phone = arguments?.getString("phone") ?: ""
+        phone = arguments?.getString("phone") ?: ""
+        googleUid = arguments?.getString("uid") ?: ""
+        googleName = arguments?.getString("name") ?: ""
+        googleEmail = arguments?.getString("email") ?: ""
 
         binding.cardGuest.setOnClickListener {
             selectedRole = "guest"
@@ -51,7 +57,7 @@ class RoleSelectionFragment : Fragment() {
 
         binding.btnContinue.setOnClickListener {
             if (selectedRole.isNotBlank()) {
-                saveUserAndProceed(phone)
+                saveUserAndProceed()
             } else {
                 Snackbar.make(binding.root, "Please select a role", Snackbar.LENGTH_SHORT).show()
             }
@@ -75,23 +81,26 @@ class RoleSelectionFragment : Fragment() {
         )
     }
 
-    private fun saveUserAndProceed(phone: String) {
+    private fun saveUserAndProceed() {
         binding.progressBar.visibility = View.VISIBLE
         binding.btnContinue.isEnabled = false
 
         lifecycleScope.launch {
             try {
-                val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+                val uid = if (googleUid.isNotBlank()) googleUid
+                else FirebaseAuth.getInstance().currentUser?.uid ?: ""
+                val name = if (googleName.isNotBlank()) googleName else "User"
+
                 val user = User(
                     uid = uid,
-                    phone = phone,
-                    name = "User",
+                    phone = if (phone.isNotBlank()) phone else googleEmail,
+                    name = name,
                     role = selectedRole
                 )
 
                 val result = authRepository.saveUserToFirestore(user)
                 if (result.isSuccess) {
-                    sessionManager.saveUser(uid, phone, "User", selectedRole)
+                    sessionManager.saveUser(uid, user.phone, name, selectedRole)
 
                     when (selectedRole) {
                         "guest" -> findNavController().navigate(R.id.action_roleSelection_to_guestHome)

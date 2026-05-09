@@ -30,10 +30,7 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
 
-        lifecycleScope.launch {
-            delay(2000)
-            navigateToNext()
-        }
+        navigateToNext()
     }
 
     private fun navigateToNext() {

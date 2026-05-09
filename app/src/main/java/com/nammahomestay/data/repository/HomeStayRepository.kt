@@ -165,6 +165,27 @@ class HomeStayRepository {
         }
     }
 
+    suspend fun searchHomeStays(query: String): Result<List<HomeStay>> {
+        return try {
+            val snapshot = firestore.collection(Constants.HOMESTAYS_COLLECTION)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .get()
+                .await()
+            val all = snapshot.documents.mapNotNull { doc ->
+                HomeStay.fromMap(doc.data ?: return@mapNotNull null)
+            }
+            val q = query.lowercase()
+            val filtered = all.filter {
+                it.name.lowercase().contains(q) ||
+                it.location.lowercase().contains(q) ||
+                it.description.lowercase().contains(q)
+            }
+            Result.success(filtered)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun getAllHomeStaysAdmin(): Result<List<HomeStay>> {
         return try {
             val snapshot = firestore.collection(Constants.HOMESTAYS_COLLECTION)

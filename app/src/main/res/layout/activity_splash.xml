@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/brand_cream">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/logoImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:contentDescription="@string/app_name"/>
+
+            <TextView
+                android:id="@+id/logoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Namma HomeStay"
+                android:textColor="@color/brand_brown"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rural Stays, Real Experiences"
+                android:textColor="@color/brand_green"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</LinearLayout>
