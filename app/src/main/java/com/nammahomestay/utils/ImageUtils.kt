@@ -17,7 +17,7 @@ object ImageUtils {
             inputStream?.close()
 
             var quality = 100
-            var stream = ByteArrayOutputStream()
+            val stream = ByteArrayOutputStream()
 
             bitmap?.let {
                 it.compress(Bitmap.CompressFormat.JPEG, quality, stream)
@@ -30,6 +30,10 @@ object ImageUtils {
 
             stream.toByteArray()
         }
+    }
+
+    fun isImageSizeValid(bytes: ByteArray, maxSizeKB: Int = 500): Boolean {
+        return bytes.size <= maxSizeKB * 1024
     }
 
     fun getBitmapSizeInKB(bitmap: Bitmap): Int {

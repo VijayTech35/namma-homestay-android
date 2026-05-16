@@ -1,0 +1,46 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Background Circle -->
+    <path
+        android:fillColor="@color/brand_cream"
+        android:pathData="M60,6C30.2,6 6,30.2 6,60s24.2,54 54,54s54,-24.2 54,-54S89.8,6 60,6z"/>
+
+    <!-- Calendar Body -->
+    <path
+        android:fillColor="@color/brand_brown"
+        android:pathData="M30,50h60v40c0,5.5 -4.5,10 -10,10h-40c-5.5,0 -10,-4.5 -10,-10v-40z"/>
+
+    <!-- Calendar Header -->
+    <path
+        android:fillColor="@color/brand_green"
+        android:pathData="M30,54h60v10h-60z"/>
+
+    <!-- Calendar Ring Tabs -->
+    <path
+        android:fillColor="@color/brand_green"
+        android:pathData="M18,44l12,-6l0,14l-12,6z"/>
+    <path
+        android:fillColor="@color/brand_green"
+        android:pathData="M90,38l12,6l0,14l-12,-6z"/>
+
+    <!-- Number "1" -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M47,78h26v3h-11v11h-4v-11h-11z"/>
+
+    <!-- Number "5" -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M76,72h20v3h-16v5h13v13h-20v-3h16v-7h-13z"/>
+
+    <!-- Check Mark -->
+    <path
+        android:strokeColor="@color/brand_green"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M45,92l6,6l14,-14"/>
+</vector>

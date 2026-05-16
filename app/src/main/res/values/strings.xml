@@ -51,4 +51,35 @@
     <string name="error_generic">Something went wrong. Please try again.</string>
     <string name="error_invalid_phone">Please enter a valid phone number</string>
     <string name="error_invalid_otp">Please enter a valid 6-digit OTP</string>
+
+    <!-- New Features -->
+    <string name="search_hint">Search homestays…</string>
+    <string name="reviews_section">Reviews</string>
+    <string name="no_reviews">No reviews yet</string>
+    <string name="book_now">Book Now</string>
+    <string name="check_in">Check-In</string>
+    <string name="check_out">Check-Out</string>
+    <string name="rate_experience">Rate your experience</string>
+    <string name="settings">Settings</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="logout">Logout</string>
+    <string name="version">Version</string>
+    <string name="pending_bookings">Pending Bookings</string>
+    <string name="confirmed_bookings">Confirmed Bookings</string>
+    <string name="book_for_dates">Book for dates</string>
+    <string name="number_of_guests">Number of guests</string>
+    <string name="booking_sent">Booking request sent!</string>
+    <string name="review_hint">Share your experience…</string>
+    <string name="submit_review">Submit Review</string>
+
+    <!-- App Shortcuts -->
+    <string name="shortcut_browse_short">Browse</string>
+    <string name="shortcut_browse_long">Browse HomeStays</string>
+    <string name="shortcut_browse_disabled">Login required</string>
+    <string name="shortcut_add_short">Add</string>
+    <string name="shortcut_add_long">Add HomeStay</string>
+    <string name="shortcut_add_disabled">Host login required</string>
+    <string name="shortcut_inquiries_short">Inquiries</string>
+    <string name="shortcut_inquiries_long">View Inquiries</string>
+    <string name="shortcut_inquiries_disabled">Host login required</string>
 </resources>

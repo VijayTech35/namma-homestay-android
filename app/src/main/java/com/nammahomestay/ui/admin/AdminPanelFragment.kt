@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,12 +59,19 @@ class AdminPanelFragment : Fragment() {
                 }
             },
             onDelete = { homestay ->
-                lifecycleScope.launch {
-                    val result = repository.deleteHomeStay(homestay.id)
-                    result.onSuccess { loadHomeStays() }.onFailure { e ->
-                        Snackbar.make(binding.root, "Delete failed: ${e.message}", Snackbar.LENGTH_LONG).show()
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Delete Listing")
+                    .setMessage("Are you sure you want to delete \"${homestay.name}\"? This cannot be undone.")
+                    .setPositiveButton("Delete") { _, _ ->
+                        lifecycleScope.launch {
+                            val result = repository.deleteHomeStay(homestay.id)
+                            result.onSuccess { loadHomeStays() }.onFailure { e ->
+                                Snackbar.make(binding.root, "Delete failed: ${e.message}", Snackbar.LENGTH_LONG).show()
+                            }
+                        }
                     }
-                }
+                    .setNegativeButton("Cancel", null)
+                    .show()
             }
         )
         binding.rvListings.apply {

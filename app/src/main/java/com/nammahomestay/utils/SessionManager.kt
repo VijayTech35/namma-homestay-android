@@ -58,6 +58,10 @@ class SessionManager(context: Context) {
         get() = prefs.getBoolean(KEY_DARK_MODE, false)
         set(value) = prefs.edit().putBoolean(KEY_DARK_MODE, value).apply()
 
+    var fcmToken: String
+        get() = prefs.getString(KEY_FCM_TOKEN, "") ?: ""
+        set(value) = prefs.edit().putString(KEY_FCM_TOKEN, value).apply()
+
     fun clearSession() {
         prefs.edit().clear().apply()
     }
@@ -70,5 +74,6 @@ class SessionManager(context: Context) {
         private const val KEY_USER_NAME = "user_name"
         private const val KEY_USER_ROLE = "user_role"
         private const val KEY_DARK_MODE = "is_dark_mode"
+        private const val KEY_FCM_TOKEN = "fcm_token"
     }
 }

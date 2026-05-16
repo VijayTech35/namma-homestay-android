@@ -21,6 +21,7 @@ class NammaHomeStayApp : Application() {
         FirebaseApp.initializeApp(this)
 
         val firestore = FirebaseFirestore.getInstance()
+        @Suppress("DEPRECATION")
         val settings = FirebaseFirestoreSettings.Builder()
             .setPersistenceEnabled(true)
             .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)

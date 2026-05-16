@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">नम्मा होमस्टे</string>
+    <string name="app_subtitle">ग्रामीण कर्नाटक का अनुभव लें</string>
+
+    <string name="welcome_title">नम्मा होमस्टे \nमें आपका स्वागत है</string>
+    <string name="phone_hint">फ़ोन नंबर</string>
+    <string name="send_otp">OTP भेजें</string>
+    <string name="verify_otp">OTP सत्यापित करें</string>
+    <string name="resend_otp">OTP पुनः भेजें</string>
+    <string name="select_role">अपनी भूमिका चुनें</string>
+    <string name="guest_role">मैं एक यात्री हूँ</string>
+    <string name="host_role">मैं एक मेज़बान हूँ</string>
+    <string name="guest_desc">कर्नाटक भर में अनोखे होमस्टे खोजें और बुक करें</string>
+    <string name="host_desc">अपनी संपत्ति सूचीबद्ध करें और यात्रियों से जुड़ें</string>
+
+    <string name="explore_homestays">होमस्टे खोजें</string>
+    <string name="no_homestays">कोई होमस्टे नहीं मिला\nरिफ़्रेश करने के लिए नीचे खींचें</string>
+    <string name="send_inquiry">पूछताछ भेजें</string>
+    <string name="view_maps">मानचित्र पर देखें</string>
+    <string name="todays_menu">आज का मेनू</string>
+    <string name="nearby_places">आस-पास के स्थान</string>
+
+    <string name="my_listings">मेरी लिस्टिंग</string>
+    <string name="add_homestay">होमस्टे जोड़ें</string>
+    <string name="edit_homestay">होमस्टे संपादित करें</string>
+    <string name="no_listings">अभी तक कोई लिस्टिंग नहीं\n+ टैप करें अपना पहला होमस्टे जोड़ने के लिए</string>
+    <string name="guest_inquiries">मेहमानों की पूछताछ</string>
+    <string name="no_inquiries">अभी तक कोई पूछताछ नहीं</string>
+    <string name="daily_menu">दैनिक मेनू</string>
+    <string name="add_place">आस-पास का स्थान जोड़ें</string>
+    <string name="ai_generate">AI से जनरेट करें</string>
+
+    <string name="admin_panel">व्यवस्थापक पैनल</string>
+    <string name="no_listings_admin">कोई लिस्टिंग नहीं मिली</string>
+
+    <string name="nav_home">होम</string>
+    <string name="nav_inquiries">पूछताछ</string>
+    <string name="nav_menu">मेनू</string>
+    <string name="nav_dashboard">डैशबोर्ड</string>
+    <string name="nav_admin">व्यवस्थापक</string>
+    <string name="nav_logout">लॉगआउट</string>
+
+    <string name="error_network">नेटवर्क त्रुटि। कृपया अपना कनेक्शन जाँचें।</string>
+    <string name="error_generic">कुछ गलत हो गया। कृपया पुनः प्रयास करें।</string>
+    <string name="error_invalid_phone">कृपया एक वैध फ़ोन नंबर दर्ज करें</string>
+    <string name="error_invalid_otp">कृपया एक वैध 6-अंकीय OTP दर्ज करें</string>
+
+    <string name="search_hint">होमस्टे खोजें…</string>
+    <string name="reviews_section">समीक्षाएँ</string>
+    <string name="no_reviews">अभी तक कोई समीक्षा नहीं</string>
+    <string name="book_now">अब बुक करें</string>
+    <string name="check_in">चेक-इन</string>
+    <string name="check_out">चेक-आउट</string>
+    <string name="rate_experience">अपने अनुभव को रेट करें</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="dark_mode">डार्क मोड</string>
+    <string name="logout">लॉगआउट</string>
+    <string name="version">संस्करण</string>
+    <string name="pending_bookings">लंबित बुकिंग</string>
+    <string name="confirmed_bookings">पुष्टि की गई बुकिंग</string>
+</resources>

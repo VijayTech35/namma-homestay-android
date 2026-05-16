@@ -1,15 +1,20 @@
 package com.nammahomestay
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.nammahomestay.databinding.ActivityMainBinding
+import com.nammahomestay.utils.NetworkUtils
 import com.nammahomestay.utils.SessionManager
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             handleBottomNav(item, bottomNav)
         }
 
-        handleAutoNavigate()
+        observeNetworkState()
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -68,20 +73,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleAutoNavigate() {
-        val role = intent?.getStringExtra("auto_role")
-        if (!role.isNullOrBlank()) {
-            val dest = when (role) {
-                "guest" -> R.id.guestHomeFragment
-                "host" -> R.id.hostDashboardFragment
-                "admin" -> R.id.adminPanelFragment
-                else -> return
+    private fun observeNetworkState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                NetworkUtils.observeNetworkState(this@MainActivity).collect { isOnline ->
+                    val snack = if (!isOnline) {
+                        Snackbar.make(binding.root, "No internet connection", Snackbar.LENGTH_INDEFINITE)
+                            .setBackgroundTint(0xFFD32F2F.toInt())
+                            .setTextColor(0xFFFFFFFF.toInt())
+                    } else {
+                        Snackbar.make(binding.root, "Back online", Snackbar.LENGTH_SHORT)
+                    }
+                    snack.show()
+                }
             }
-            navController.navigate(dest)
         }
     }
 
-    private fun handleBottomNav(item: MenuItem, bottomNav: BottomNavigationView): Boolean {
+    private fun handleBottomNav(item: MenuItem, @Suppress("UNUSED_PARAMETER") bottomNav: BottomNavigationView): Boolean {
         return when (item.itemId) {
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
@@ -90,15 +99,15 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.guestHomeFragment -> {
-                navController.navigate(R.id.guestHomeFragment)
+                navController.popBackStack(R.id.guestHomeFragment, false)
                 true
             }
             R.id.hostDashboardFragment -> {
-                navController.navigate(R.id.hostDashboardFragment)
+                navController.popBackStack(R.id.hostDashboardFragment, false)
                 true
             }
             R.id.adminPanelFragment -> {
-                navController.navigate(R.id.adminPanelFragment)
+                navController.popBackStack(R.id.adminPanelFragment, false)
                 true
             }
             R.id.inquiriesFragment -> {

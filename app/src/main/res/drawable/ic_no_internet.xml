@@ -1,0 +1,32 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Circle Background -->
+    <path
+        android:fillColor="@color/brand_cream"
+        android:pathData="M60,6C30.2,6 6,30.2 6,60s24.2,54 54,54s54,-24.2 54,-54S89.8,6 60,6z"/>
+
+    <!-- Wi-Fi Icon with X -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M60,30c-10,0 -20,3.5 -28,9.5"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M60,46c-6.6,0 -13,2.3 -18,6.5"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M60,62c-3.3,0 -6.5,1 -9,3"/>
+    <path
+        android:fillColor="@color/brand_brown"
+        android:pathData="M58,70a2,2 0 1,0 4,0a2,2 0 1,0 -4,0"/>
+
+    <!-- Red X -->
+    <path
+        android:strokeColor="#D32F2F"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M82,36l16,16M98,36l-16,16"/>
+</vector>

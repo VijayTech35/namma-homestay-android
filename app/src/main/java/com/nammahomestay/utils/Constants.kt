@@ -10,6 +10,8 @@ object Constants {
     const val DAILY_MENU_COLLECTION = "daily_menu"
     const val GUIDE_PLACES_COLLECTION = "guide_places"
     const val FAVORITES_COLLECTION = "favorites"
+    const val REVIEWS_COLLECTION = "reviews"
+    const val BOOKINGS_COLLECTION = "bookings"
 
     // Gemini API
     const val GEMINI_API_KEY = "AIzaSyCqemgIOjOYKpPiiOpwPM3nR_b9ezxm8KY"
@@ -26,7 +28,7 @@ object Constants {
     const val DATE_FORMAT = "yyyy-MM-dd"
     const val DISPLAY_DATE_FORMAT = "dd MMM yyyy"
 
-    // Google Sign-In - get this from Firebase Console → Authentication → Sign-in method → Google → Web client ID
+    // Google Sign-In - get this from Firebase Console -> Authentication -> Sign-in method -> Google -> Web client ID
     const val GOOGLE_WEB_CLIENT_ID = "892844703495-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com"
 
     // Loading states

@@ -14,11 +14,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.nammahomestay.R
 import com.nammahomestay.adapter.GuidePlaceAdapter
+import com.nammahomestay.adapter.ReviewAdapter
 import com.nammahomestay.data.model.HomeStay
 import com.nammahomestay.data.repository.GuideRepository
 import com.nammahomestay.data.repository.HomeStayRepository
 import com.nammahomestay.data.repository.FavoriteRepository
 import com.nammahomestay.data.repository.MenuRepository
+import com.nammahomestay.data.repository.ReviewRepository
 import com.nammahomestay.databinding.FragmentHomeStayDetailBinding
 import com.nammahomestay.utils.Constants
 import com.nammahomestay.utils.SessionManager
@@ -35,10 +37,12 @@ class HomeStayDetailFragment : Fragment() {
     private val menuRepository = MenuRepository()
     private val guideRepository = GuideRepository()
     private val favoriteRepository = FavoriteRepository()
+    private val reviewRepository = ReviewRepository()
     private var isFavorited = false
     private lateinit var sessionManager: SessionManager
     private var homestay: HomeStay? = null
     private lateinit var placeAdapter: GuidePlaceAdapter
+    private lateinit var reviewAdapter: ReviewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,25 +58,18 @@ class HomeStayDetailFragment : Fragment() {
 
         val homestayId = arguments?.getString("homestayId") ?: return
         setupGuideRecyclerView()
+        setupReviewRecyclerView()
         loadHomeStayDetail(homestayId)
         loadTodayMenu(homestayId)
         loadGuidePlaces(homestayId)
+        loadReviews(homestayId)
 
-        binding.btnSendInquiry.setOnClickListener {
-            showInquiryDialog()
-        }
-
-        binding.btnOpenMaps.setOnClickListener {
-            openInGoogleMaps()
-        }
-
-        binding.btnFavorite.setOnClickListener {
-            toggleFavoriteAction()
-        }
-
-        binding.btnShare.setOnClickListener {
-            shareHomeStay()
-        }
+        binding.btnSendInquiry.setOnClickListener { showInquiryDialog() }
+        binding.btnOpenMaps.setOnClickListener { openInGoogleMaps() }
+        binding.btnFavorite.setOnClickListener { toggleFavoriteAction() }
+        binding.btnShare.setOnClickListener { shareHomeStay() }
+        binding.btnBookNow.setOnClickListener { showBookingDialog() }
+        binding.btnRateReview.setOnClickListener { showReviewDialog() }
     }
 
     private fun setupGuideRecyclerView() {
@@ -82,6 +79,14 @@ class HomeStayDetailFragment : Fragment() {
         binding.rvNearbyPlaces.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = placeAdapter
+        }
+    }
+
+    private fun setupReviewRecyclerView() {
+        reviewAdapter = ReviewAdapter()
+        binding.rvReviews.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = reviewAdapter
         }
     }
 
@@ -133,6 +138,20 @@ class HomeStayDetailFragment : Fragment() {
                 transformations(RoundedCornersTransformation(16f))
                 placeholder(R.drawable.placeholder_image)
                 error(R.drawable.placeholder_image)
+            }
+        }
+    }
+
+    private fun loadReviews(homestayId: String) {
+        lifecycleScope.launch {
+            val result = reviewRepository.getReviews(homestayId)
+            result.onSuccess { reviews ->
+                if (reviews.isNotEmpty()) {
+                    binding.tvSectionReviews.visibility = View.VISIBLE
+                    binding.rvReviews.visibility = View.VISIBLE
+                    binding.btnRateReview.visibility = View.VISIBLE
+                    reviewAdapter.submitList(reviews)
+                }
             }
         }
     }
@@ -219,11 +238,29 @@ ${h.description}
         }
     }
 
+    private fun showBookingDialog() {
+        homestay?.let { h ->
+            val dialog = BookingDialogFragment().apply {
+                homestayId = h.id
+                hostId = h.hostId
+            }
+            dialog.show(parentFragmentManager, "BookingDialog")
+        }
+    }
+
+    private fun showReviewDialog() {
+        homestay?.let { h ->
+            val dialog = ReviewDialogFragment().apply {
+                homestayId = h.id
+                onReviewSubmitted = { loadReviews(h.id) }
+            }
+            dialog.show(parentFragmentManager, "ReviewDialog")
+        }
+    }
+
     private fun showInquiryDialog() {
         val dialog = InquiryDialogFragment()
-        dialog.onSendInquiry = { message ->
-            sendInquiry(message)
-        }
+        dialog.onSendInquiry = { message -> sendInquiry(message) }
         dialog.show(parentFragmentManager, "InquiryDialog")
     }
 

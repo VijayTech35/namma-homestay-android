@@ -9,11 +9,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.nammahomestay.R
 import com.nammahomestay.data.model.User
 import com.nammahomestay.data.repository.AuthRepository
 import com.nammahomestay.databinding.FragmentRoleSelectionBinding
+import com.nammahomestay.utils.Constants
 import com.nammahomestay.utils.SessionManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RoleSelectionFragment : Fragment() {
@@ -85,36 +88,31 @@ class RoleSelectionFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         binding.btnContinue.isEnabled = false
 
-        lifecycleScope.launch {
+        val uid = if (googleUid.isNotBlank()) googleUid
+        else FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        val name = if (googleName.isNotBlank()) googleName else "User"
+
+        val user = User(
+            uid = uid,
+            phone = if (phone.isNotBlank()) phone else googleEmail,
+            name = name,
+            role = selectedRole
+        )
+
+        // Save to session immediately
+        sessionManager.saveUser(uid, user.phone, name, selectedRole)
+
+        // Navigate immediately (don't wait for Firestore)
+        when (selectedRole) {
+            "guest" -> findNavController().navigate(R.id.action_roleSelection_to_guestHome)
+            "host" -> findNavController().navigate(R.id.action_roleSelection_to_hostDashboard)
+        }
+
+        // Firestore save + FCM in background
+        lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val uid = if (googleUid.isNotBlank()) googleUid
-                else FirebaseAuth.getInstance().currentUser?.uid ?: ""
-                val name = if (googleName.isNotBlank()) googleName else "User"
-
-                val user = User(
-                    uid = uid,
-                    phone = if (phone.isNotBlank()) phone else googleEmail,
-                    name = name,
-                    role = selectedRole
-                )
-
-                val result = authRepository.saveUserToFirestore(user)
-                if (result.isSuccess) {
-                    sessionManager.saveUser(uid, user.phone, name, selectedRole)
-
-                    when (selectedRole) {
-                        "guest" -> findNavController().navigate(R.id.action_roleSelection_to_guestHome)
-                        "host" -> findNavController().navigate(R.id.action_roleSelection_to_hostDashboard)
-                    }
-                } else {
-                    Snackbar.make(binding.root, "Failed to save user", Snackbar.LENGTH_LONG).show()
-                }
-            } catch (e: Exception) {
-                Snackbar.make(binding.root, e.message ?: "Error occurred", Snackbar.LENGTH_LONG).show()
-            } finally {
-                binding.progressBar.visibility = View.GONE
-                binding.btnContinue.isEnabled = true
-            }
+                authRepository.saveUserToFirestore(user)
+            } catch (_: Exception) {}
         }
     }
 

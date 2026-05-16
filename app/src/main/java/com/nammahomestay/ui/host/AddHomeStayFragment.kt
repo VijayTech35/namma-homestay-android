@@ -16,6 +16,7 @@ import com.nammahomestay.R
 import com.nammahomestay.data.model.HomeStay
 import com.nammahomestay.data.repository.HomeStayRepository
 import com.nammahomestay.databinding.FragmentAddHomeStayBinding
+import com.nammahomestay.ui.common.LocationPickerActivity
 import com.nammahomestay.utils.SessionManager
 import com.nammahomestay.utils.ValidationUtils
 import kotlinx.coroutines.launch
@@ -29,6 +30,8 @@ class AddHomeStayFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private var selectedImageUri: Uri? = null
     private var editHomeStayId: String? = null
+    private var selectedLat = 0.0
+    private var selectedLng = 0.0
 
     private val imagePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -49,6 +52,17 @@ class AddHomeStayFragment : Fragment() {
         return binding.root
     }
 
+    private val locationPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            selectedLat = result.data?.getDoubleExtra("lat", 0.0) ?: 0.0
+            selectedLng = result.data?.getDoubleExtra("lng", 0.0) ?: 0.0
+            binding.tvCoordinates.text = "${String.format("%.4f", selectedLat)}, ${String.format("%.4f", selectedLng)}"
+            binding.tvCoordinates.setTextColor(0xFF2E7D32.toInt())
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
@@ -61,6 +75,14 @@ class AddHomeStayFragment : Fragment() {
 
         binding.ivPreview.setOnClickListener { pickImage() }
         binding.tvAddPhoto.setOnClickListener { pickImage() }
+
+        binding.btnPickLocation.setOnClickListener {
+            val intent = Intent(requireContext(), LocationPickerActivity::class.java).apply {
+                putExtra("lat", selectedLat)
+                putExtra("lng", selectedLng)
+            }
+            locationPickerLauncher.launch(intent)
+        }
 
         binding.btnSubmit.setOnClickListener {
             if (editHomeStayId != null) updateHomeStay() else addHomeStay()
@@ -84,8 +106,12 @@ class AddHomeStayFragment : Fragment() {
                     val homestay = HomeStay.fromMap(data)
                     binding.etName.setText(homestay.name)
                     binding.etLocation.setText(homestay.location)
-                    binding.etLatitude.setText(if (homestay.latitude != 0.0) homestay.latitude.toString() else "")
-                    binding.etLongitude.setText(if (homestay.longitude != 0.0) homestay.longitude.toString() else "")
+                    selectedLat = homestay.latitude
+                    selectedLng = homestay.longitude
+                    if (selectedLat != 0.0) {
+                        binding.tvCoordinates.text = "${String.format("%.4f", selectedLat)}, ${String.format("%.4f", selectedLng)}"
+                        binding.tvCoordinates.setTextColor(0xFF2E7D32.toInt())
+                    }
                     binding.etPrice.setText(homestay.rate.toString())
                     binding.etDescription.setText(homestay.description)
                     binding.cbAvailability.isChecked = homestay.availability
@@ -116,8 +142,8 @@ class AddHomeStayFragment : Fragment() {
                     hostPhone = sessionManager.userPhone,
                     name = ValidationUtils.sanitizeInput(binding.etName.text.toString().trim()),
                     location = ValidationUtils.sanitizeInput(binding.etLocation.text.toString().trim()),
-                    latitude = binding.etLatitude.text.toString().toDoubleOrNull() ?: 0.0,
-                    longitude = binding.etLongitude.text.toString().toDoubleOrNull() ?: 0.0,
+                    latitude = selectedLat,
+                    longitude = selectedLng,
                     rate = binding.etPrice.text.toString().toDouble(),
                     description = ValidationUtils.sanitizeInput(binding.etDescription.text.toString().trim()),
                     photos = if (photoUrl.isNotBlank()) listOf(photoUrl) else emptyList(),
@@ -165,8 +191,8 @@ class AddHomeStayFragment : Fragment() {
                     hostPhone = existingData?.hostPhone ?: sessionManager.userPhone,
                     name = ValidationUtils.sanitizeInput(binding.etName.text.toString().trim()),
                     location = ValidationUtils.sanitizeInput(binding.etLocation.text.toString().trim()),
-                    latitude = binding.etLatitude.text.toString().toDoubleOrNull() ?: 0.0,
-                    longitude = binding.etLongitude.text.toString().toDoubleOrNull() ?: 0.0,
+                    latitude = selectedLat,
+                    longitude = selectedLng,
                     rate = binding.etPrice.text.toString().toDouble(),
                     description = ValidationUtils.sanitizeInput(binding.etDescription.text.toString().trim()),
                     photos = if (photoUrl.isNotBlank()) listOf(photoUrl) else existingData?.photos ?: emptyList(),

@@ -1,0 +1,40 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Circle Background -->
+    <path
+        android:fillColor="@color/brand_cream"
+        android:pathData="M60,6C30.2,6 6,30.2 6,60s24.2,54 54,54s54,-24.2 54,-54S89.8,6 60,6z"/>
+
+    <!-- House -->
+    <path
+        android:fillColor="@color/brand_green"
+        android:pathData="M38,70h44v30h-44z"/>
+
+    <!-- Roof -->
+    <path
+        android:fillColor="@color/brand_brown"
+        android:pathData="M32,70l28,-22l28,22z"/>
+
+    <!-- Door -->
+    <path
+        android:fillColor="@color/brand_white"
+        android:pathData="M52,84h16v16h-16z"/>
+
+    <!-- Search Icon -->
+    <path
+        android:fillColor="@color/brand_brown"
+        android:pathData="M90,38a16,16 0 1,0 0,32a16,16 0 1,0 0,-32z"/>
+    <path
+        android:strokeColor="@color/brand_cream"
+        android:strokeWidth="3"
+        android:pathData="M90,38a16,16 0 1,0 0,32a16,16 0 1,0 0,-32z"/>
+    <path
+        android:strokeColor="@color/brand_brown"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="M109,55l-14,-14"/>
+</vector>

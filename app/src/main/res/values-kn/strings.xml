@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ನಮ್ಮ ಹೋಮ್ಸ್ಟೇ</string>
+    <string name="app_subtitle">ಗ್ರಾಮೀಣ ಕರ್ನಾಟಕದ ಅನುಭವ</string>
+
+    <string name="welcome_title">ನಮ್ಮ ಹೋಮ್ಸ್ಟೇ\nಗೆ ಸುಸ್ವಾಗತ</string>
+    <string name="phone_hint">ದೂರವಾಣಿ ಸಂಖ್ಯೆ</string>
+    <string name="send_otp">OTP ಕಳುಹಿಸಿ</string>
+    <string name="verify_otp">OTP ಪರಿಶೀಲಿಸಿ</string>
+    <string name="resend_otp">OTP ಮರುಕಳುಹಿಸಿ</string>
+    <string name="select_role">ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="guest_role">ನಾನು ಪ್ರಯಾಣಿಕ</string>
+    <string name="host_role">ನಾನು ಆತಿಥೇಯ</string>
+    <string name="guest_desc">ಕರ್ನಾಟಕದಾದ್ಯಂತ ಅನನ್ಯ ಹೋಮ್ಸ್ಟೇಗಳನ್ನು ಹುಡುಕಿ ಮತ್ತು ಬುಕ್ ಮಾಡಿ</string>
+    <string name="host_desc">ನಿಮ್ಮ ಆಸ್ತಿಯನ್ನು ಪಟ್ಟಿ ಮಾಡಿ ಮತ್ತು ಪ್ರಯಾಣಿಕರೊಂದಿಗೆ ಸಂಪರ್ಕಿಸಿ</string>
+
+    <string name="explore_homestays">ಹೋಮ್ಸ್ಟೇಗಳನ್ನು ಅನ್ವೇಷಿಸಿ</string>
+    <string name="no_homestays">ಯಾವುದೇ ಹೋಮ್ಸ್ಟೇ ಕಂಡುಬಂದಿಲ್ಲ\nರಿಫ್ರೆಶ್ ಮಾಡಲು ಕೆಳಗೆ ಎಳೆಯಿರಿ</string>
+    <string name="send_inquiry">ವಿಚಾರಣೆ ಕಳುಹಿಸಿ</string>
+    <string name="view_maps">ನಕ್ಷೆಯಲ್ಲಿ ನೋಡಿ</string>
+    <string name="todays_menu">ಇಂದಿನ ಮೆನು</string>
+    <string name="nearby_places">ಹತ್ತಿರದ ಸ್ಥಳಗಳು</string>
+
+    <string name="my_listings">ನನ್ನ ಪಟ್ಟಿಗಳು</string>
+    <string name="add_homestay">ಹೋಮ್ಸ್ಟೇ ಸೇರಿಸಿ</string>
+    <string name="edit_homestay">ಹೋಮ್ಸ್ಟೇ ಸಂಪಾದಿಸಿ</string>
+    <string name="no_listings">ಇನ್ನೂ ಯಾವುದೇ ಪಟ್ಟಿಗಳಿಲ್ಲ\nನಿಮ್ಮ ಮೊದಲ ಹೋಮ್ಸ್ಟೇ ಸೇರಿಸಲು + ಟ್ಯಾಪ್ ಮಾಡಿ</string>
+    <string name="guest_inquiries">ಅತಿಥಿ ವಿಚಾರಣೆಗಳು</string>
+    <string name="no_inquiries">ಇನ್ನೂ ಯಾವುದೇ ವಿಚಾರಣೆಗಳಿಲ್ಲ</string>
+    <string name="daily_menu">ದೈನಂದಿನ ಮೆನು</string>
+    <string name="add_place">ಹತ್ತಿರದ ಸ್ಥಳ ಸೇರಿಸಿ</string>
+    <string name="ai_generate">AI ಮೂಲಕ ರಚಿಸಿ</string>
+
+    <string name="admin_panel">ನಿರ್ವಾಹಕ ಫಲಕ</string>
+    <string name="no_listings_admin">ಯಾವುದೇ ಪಟ್ಟಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ</string>
+
+    <string name="nav_home">ಮುಖಪುಟ</string>
+    <string name="nav_inquiries">ವಿಚಾರಣೆಗಳು</string>
+    <string name="nav_menu">ಮೆನು</string>
+    <string name="nav_dashboard">ಡ್ಯಾಶ್ಬೋರ್ಡ್</string>
+    <string name="nav_admin">ನಿರ್ವಾಹಕ</string>
+    <string name="nav_logout">ನಿರ್ಗಮಿಸಿ</string>
+
+    <string name="error_network">ನೆಟ್ವರ್ಕ್ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ.</string>
+    <string name="error_generic">ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</string>
+    <string name="error_invalid_phone">ದಯವಿಟ್ಟು ಮಾನ್ಯ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="error_invalid_otp">ದಯವಿಟ್ಟು ಮಾನ್ಯ 6-ಅಂಕಿಯ OTP ನಮೂದಿಸಿ</string>
+
+    <string name="search_hint">ಹೋಮ್ಸ್ಟೇ ಹುಡುಕಿ…</string>
+    <string name="reviews_section">ವಿಮರ್ಶೆಗಳು</string>
+    <string name="no_reviews">ಇನ್ನೂ ಯಾವುದೇ ವಿಮರ್ಶೆಗಳಿಲ್ಲ</string>
+    <string name="book_now">ಈಗ ಬುಕ್ ಮಾಡಿ</string>
+    <string name="check_in">ಚೆಕ್-ಇನ್</string>
+    <string name="check_out">ಚೆಕ್-ಔಟ್</string>
+    <string name="rate_experience">ನಿಮ್ಮ ಅನುಭವವನ್ನು ರೇಟ್ ಮಾಡಿ</string>
+    <string name="settings">ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
+    <string name="dark_mode">ಡಾರ್ಕ್ ಮೋಡ್</string>
+    <string name="logout">ನಿರ್ಗಮಿಸಿ</string>
+    <string name="version">ಆವೃತ್ತಿ</string>
+    <string name="pending_bookings">ಬಾಕಿ ಬುಕಿಂಗ್‌ಗಳು</string>
+    <string name="confirmed_bookings">ದೃಢಪಟ್ಟ ಬುಕಿಂಗ್‌ಗಳು</string>
+</resources>

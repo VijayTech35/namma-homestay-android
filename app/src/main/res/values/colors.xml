@@ -26,4 +26,7 @@
     <color name="default_card">@color/brand_white</color>
     <color name="shimmer_color">#E0E0E0</color>
     <color name="bottom_nav_unselected">#9E9E9E</color>
+
+    <!-- Shorthand aliases for drawables -->
+    <color name="white">@color/brand_white</color>
 </resources>

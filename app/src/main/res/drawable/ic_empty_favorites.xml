@@ -1,0 +1,25 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Circle Background -->
+    <path
+        android:fillColor="@color/brand_cream"
+        android:pathData="M60,6C30.2,6 6,30.2 6,60s24.2,54 54,54s54,-24.2 54,-54S89.8,6 60,6z"/>
+
+    <!-- Big Heart Outline -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M60,95c0,0 -30,-20 -30,-40c0,-11 9,-20 20,-20c6.6,0 10,3 10,3s3.4,-3 10,-3c11,0 20,9 20,20c0,20 -30,40 -30,40z"/>
+    <path
+        android:strokeColor="@color/brand_green"
+        android:strokeWidth="2"
+        android:pathData="M60,95c0,0 -30,-20 -30,-40c0,-11 9,-20 20,-20c6.6,0 10,3 10,3s3.4,-3 10,-3c11,0 20,9 20,20c0,20 -30,40 -30,40z"/>
+
+    <!-- Small Star -->
+    <path
+        android:fillColor="@color/brand_green"
+        android:pathData="M60,30l3,9h10l-8,6l3,9l-8,-5l-8,5l3,-9l-8,-6h10z"/>
+</vector>

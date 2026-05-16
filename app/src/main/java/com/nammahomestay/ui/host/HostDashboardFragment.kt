@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -68,7 +69,7 @@ class HostDashboardFragment : Fragment() {
                 findNavController().navigate(R.id.action_hostDashboard_to_addHomeStay, bundle)
             },
             onDelete = { homestay ->
-                deleteHomeStay(homestay.id)
+                deleteHomeStay(homestay.id, homestay.name)
             }
         )
         binding.rvMyHomeStays.apply {
@@ -106,16 +107,23 @@ class HostDashboardFragment : Fragment() {
         }
     }
 
-    private fun deleteHomeStay(id: String) {
-        lifecycleScope.launch {
-            val result = repository.deleteHomeStay(id)
-            result.onSuccess {
-                Snackbar.make(binding.root, "Listing deleted", Snackbar.LENGTH_SHORT).show()
-                loadMyHomeStays()
-            }.onFailure {
-                Snackbar.make(binding.root, "Failed to delete", Snackbar.LENGTH_LONG).show()
+    private fun deleteHomeStay(id: String, name: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete HomeStay")
+            .setMessage("Are you sure you want to delete \"$name\"? This cannot be undone.")
+            .setPositiveButton("Delete") { _, _ ->
+                lifecycleScope.launch {
+                    val result = repository.deleteHomeStay(id)
+                    result.onSuccess {
+                        Snackbar.make(binding.root, "Listing deleted", Snackbar.LENGTH_SHORT).show()
+                        loadMyHomeStays()
+                    }.onFailure {
+                        Snackbar.make(binding.root, "Failed to delete", Snackbar.LENGTH_LONG).show()
+                    }
+                }
             }
-        }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     override fun onResume() {

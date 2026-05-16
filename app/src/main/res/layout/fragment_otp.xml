@@ -52,7 +52,8 @@
             android:maxLength="6"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:gravity="center" />
+            android:gravity="center"
+            android:autofillHints="smsOTPCode" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton

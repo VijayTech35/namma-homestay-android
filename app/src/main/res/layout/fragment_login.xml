@@ -10,19 +10,31 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
+        <ImageView
+            android:id="@+id/ivIllustration"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="48dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Welcome to\nNamma HomeStay"
             android:textColor="@color/text_primary"
             android:textSize="28sp"
             android:textStyle="bold"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/ivIllustration" />
 
         <TextView
             android:id="@+id/tvSubtitle"

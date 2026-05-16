@@ -304,6 +304,49 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSectionGuide" />
 
+            <TextView
+                android:id="@+id/tvSectionReviews"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Reviews"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/text_primary"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvNearbyPlaces" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvReviews"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSectionReviews" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRateReview"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Rate &amp; Review"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_star"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvReviews" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -316,6 +359,19 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="12dp"
+        android:layout_gravity="bottom" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBookNow"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="144dp"
+        android:text="Book Now"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_calendar"
         android:layout_gravity="bottom" />
 
     <com.google.android.material.button.MaterialButton
