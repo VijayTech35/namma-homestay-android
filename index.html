@@ -4,179 +4,704 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Namma HomeStay — Rural Stays, Real Experiences</title>
-  <meta name="description" content="Android app connecting travelers with authentic rural homestays across Karnataka.">
+  <meta name="description" content="Android app connecting travelers with authentic rural homestays across Karnataka. Browse, book, review, and manage homestays with ease.">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
       background: #FFF8E1;
       color: #1C1B1F;
       line-height: 1.6;
+      overflow-x: hidden;
     }
-    .container { max-width: 800px; margin: 0 auto; padding: 24px; }
-    header {
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 60px 24px 40px;
-      background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+      padding: 40px 24px;
+      background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 40%, #388E3C 100%);
       color: #fff;
+      position: relative;
+      overflow: hidden;
     }
-    header h1 { font-size: 2.5em; margin-bottom: 8px; }
-    header p { font-size: 1.1em; opacity: .9; }
-    .badge {
-      display: inline-block;
-      background: #fff;
-      color: #2E7D32;
-      padding: 8px 24px;
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(255,248,225,.08) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-30px, 30px); }
+    }
+    .hero * { position: relative; z-index: 1; }
+    .hero-icon {
+      width: 96px; height: 96px;
+      background: rgba(255,255,255,.15);
       border-radius: 24px;
-      font-weight: 600;
-      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.2);
     }
-    section { margin: 40px 0; }
-    h2 { color: #2E7D32; margin-bottom: 16px; font-size: 1.5em; }
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-    }
-    .feature {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    }
-    .feature h3 { color: #6D4C41; margin-bottom: 4px; font-size: 1.1em; }
-    .feature p { color: #6B7280; font-size: .9em; }
-    .screenshots {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-    }
-    .screenshot {
-      background: #E8F5E9;
-      border-radius: 12px;
-      padding: 40px 16px;
-      text-align: center;
-      color: #2E7D32;
+    .hero h1 { font-size: 3.2em; font-weight: 800; letter-spacing: -.5px; margin-bottom: 8px; }
+    .hero h1 span { color: #FFB74D; }
+    .hero p { font-size: 1.2em; opacity: .9; max-width: 500px; margin-bottom: 8px; }
+    .hero-tagline { font-size: .95em; opacity: .7; margin-bottom: 32px; }
+    .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .hero-badges span {
+      background: rgba(255,255,255,.15);
+      padding: 6px 16px;
+      border-radius: 20px;
       font-size: .85em;
-      border: 2px dashed #A5D6A7;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,.1);
     }
-    .download {
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      opacity: .6;
+      font-size: 24px;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,248,225,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      padding: 0 24px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    nav ul li a {
+      display: block;
+      padding: 14px 16px;
+      color: #6B7280;
+      text-decoration: none;
+      font-size: .85em;
+      font-weight: 500;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all .2s;
+    }
+    nav ul li a:hover, nav ul li a.active {
+      color: #2E7D32;
+      border-bottom-color: #2E7D32;
+    }
+
+    /* ─── SECTIONS ─── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    section:nth-child(even) { background: rgba(255,255,255,.5); }
+    .section-title {
       text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-title h2 {
+      font-size: 2em;
+      color: #1B5E20;
+      margin-bottom: 8px;
+    }
+    .section-title p {
+      color: #6B7280;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ─── FEATURES GRID ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
       background: #fff;
       border-radius: 16px;
-      padding: 40px 24px;
-      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      padding: 28px 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      transition: transform .2s, box-shadow .2s;
+      border: 1px solid rgba(0,0,0,.04);
     }
-    .btn {
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(46,125,50,.1);
+    }
+    .feature-card .icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 1.05em; color: #2E7D32; margin-bottom: 6px; }
+    .feature-card p { font-size: .9em; color: #6B7280; }
+
+    /* ─── BADGES ─── */
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .badge {
       display: inline-block;
-      background: #2E7D32;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: .75em;
+      font-weight: 600;
+    }
+    .badge-green { background: #E8F5E9; color: #2E7D32; }
+    .badge-brown { background: #EFEBE9; color: #6D4C41; }
+    .badge-blue { background: #E3F2FD; color: #1565C0; }
+    .badge-purple { background: #F3E5F5; color: #7B1FA2; }
+
+    /* ─── SCREENSHOTS ─── */
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+    }
+    .screenshot-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 12px;
+      text-align: center;
+      border: 2px solid #E8F5E9;
+      transition: border-color .2s;
+    }
+    .screenshot-card:hover { border-color: #2E7D32; }
+    .screenshot-card .mockup {
+      width: 64px; height: 64px;
+      margin: 0 auto 12px;
+      background: #E8F5E9;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+    .screenshot-card .label { font-size: .85em; color: #374151; font-weight: 500; }
+    .screenshot-card .desc { font-size: .75em; color: #9CA3AF; margin-top: 4px; }
+
+    /* ─── TECH STACK ─── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .tech-item {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,.04);
+    }
+    .tech-item .tech-icon { font-size: 28px; margin-bottom: 8px; }
+    .tech-item .tech-name { font-size: .85em; font-weight: 600; color: #374151; }
+    .tech-item .tech-desc { font-size: .75em; color: #9CA3AF; }
+
+    /* ─── DOWNLOAD ─── */
+    .download-section {
+      text-align: center;
+      background: linear-gradient(135deg, #2E7D32, #1B5E20);
       color: #fff;
-      padding: 14px 40px;
+      border-radius: 24px;
+      padding: 60px 32px;
+      margin: 0 24px;
+    }
+    .download-section h2 { font-size: 2em; margin-bottom: 8px; color: #fff; }
+    .download-section p { opacity: .85; margin-bottom: 24px; }
+    .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
       border-radius: 12px;
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.1em;
-      margin-top: 16px;
-      transition: background .2s;
+      font-size: 1em;
+      transition: all .2s;
     }
-    .btn:hover { background: #1B5E20; }
-    .btn-secondary {
-      background: #6D4C41;
-      margin-left: 12px;
+    .btn-primary {
+      background: #fff;
+      color: #2E7D32;
     }
-    .btn-secondary:hover { background: #4E342E; }
+    .btn-primary:hover { background: #E8F5E9; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,.3);
+    }
+    .btn-outline:hover { border-color: #fff; transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
     footer {
       text-align: center;
-      padding: 32px 24px;
+      padding: 48px 24px;
       color: #6B7280;
       font-size: .85em;
     }
     footer a { color: #2E7D32; text-decoration: none; }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.8em; }
-      .btn-secondary { margin-left: 0; margin-top: 8px; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
+    .footer-links a { color: #6B7280; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2em; }
+      .hero p { font-size: 1em; }
+      section { padding: 48px 0; }
+      .section-title h2 { font-size: 1.5em; }
+      .download-section { padding: 40px 20px; margin: 0 12px; }
+      .screenshots-grid { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Namma HomeStay</h1>
-    <p>Rural Stays, Real Experiences</p>
-    <div class="badge">v1.0.0 — Android</div>
-  </header>
 
-  <div class="container">
-    <section>
-      <h2>About</h2>
-      <p>Namma HomeStay connects travelers with authentic rural homestays across Karnataka. Browse verified properties, book your stay, and experience the warmth of rural India — all from your phone.</p>
-    </section>
-
-    <section>
-      <h2>Features</h2>
-      <div class="features">
-        <div class="feature">
-          <h3>🔍 Browse & Search</h3>
-          <p>Discover homestays with filters, search, and verified listings.</p>
-        </div>
-        <div class="feature">
-          <h3>⭐ Reviews & Ratings</h3>
-          <p>Read genuine guest reviews and rate your experience.</p>
-        </div>
-        <div class="feature">
-          <h3>📅 Book Instantly</h3>
-          <p>Check-in/out dates, guest count — book directly from the app.</p>
-        </div>
-        <div class="feature">
-          <h3>❤️ Favorites</h3>
-          <p>Save your favorite homestays for quick access.</p>
-        </div>
-        <div class="feature">
-          <h3>🍽️ Daily Menu</h3>
-          <p>View today's meals — AI-generated suggestions for hosts.</p>
-        </div>
-        <div class="feature">
-          <h3>🗺️ Nearby Places</h3>
-          <p>Explore trekking spots, temples, waterfalls around your stay.</p>
-        </div>
-        <div class="feature">
-          <h3>🌙 Dark Mode</h3>
-          <p>Comfortable viewing day or night.</p>
-        </div>
-        <div class="feature">
-          <h3>🌐 Multi-Language</h3>
-          <p>English, Hindi, and Kannada support.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Screenshots</h2>
-      <div class="screenshots">
-        <div class="screenshot">📱 Splash Screen</div>
-        <div class="screenshot">📱 Login</div>
-        <div class="screenshot">📱 Browse</div>
-        <div class="screenshot">📱 Detail View</div>
-        <div class="screenshot">📱 Booking</div>
-        <div class="screenshot">📱 Host Dashboard</div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Tech Stack</h2>
-      <p>Kotlin · MVVM · Firebase Auth · Firestore · Storage · Gemini AI · Google Maps · Material Design 3 · Coil · Navigation Component</p>
-    </section>
-
-    <section class="download">
-      <h2>Get the App</h2>
-      <p>Download the APK or view the source code on GitHub.</p>
-      <a class="btn" href="https://github.com/VijayTech35/namma-homestay-android/releases" target="_blank">Download APK</a>
-      <a class="btn btn-secondary" href="https://github.com/VijayTech35/namma-homestay-android" target="_blank">View Source</a>
-    </section>
+<!-- ═══ HERO ═══ -->
+<header class="hero" id="home">
+  <div class="hero-icon">🏡</div>
+  <h1>Namma <span>HomeStay</span></h1>
+  <p>Rural Stays, Real Experiences</p>
+  <div class="hero-tagline">Connect with authentic rural Karnataka — from your phone</div>
+  <div class="hero-badges">
+    <span>📱 Android</span>
+    <span>🔥 Kotlin</span>
+    <span>☁️ Firebase</span>
+    <span>🤖 Gemini AI</span>
+    <span>⭐ 4.8</span>
   </div>
+  <div class="hero-scroll">↓</div>
+</header>
 
-  <footer>
-    <p>Made with ❤️ for Karnataka's rural tourism</p>
-    <p><a href="https://github.com/VijayTech35/namma-homestay-android">GitHub</a></p>
-  </footer>
+<!-- ═══ NAV ═══ -->
+<nav>
+  <ul>
+    <li><a href="#home" class="active">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#screenshots">Screenshots</a></li>
+    <li><a href="#tech">Tech Stack</a></li>
+    <li><a href="#download">Download</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ FEATURES ═══ -->
+<section id="features">
+  <div class="container">
+    <div class="section-title">
+      <h2>Everything You Need</h2>
+      <p>Built for travelers, hosts, and admins — all in one app</p>
+    </div>
+    <div class="features-grid">
+
+      <!-- Row 1: Guest Features -->
+      <div class="feature-card">
+        <div class="icon" style="background:#E8F5E9;">🔍</div>
+        <h3>Browse & Search</h3>
+        <p>Explore verified homestays with real-time search, chip filters (All, Available, Verified, Low Price), and advanced filter dialog — 300ms debounced search for instant results.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E3F2FD;">⭐</div>
+        <h3>Reviews & Ratings</h3>
+        <p>Read guest reviews with star ratings. Rate your stay (1-5 stars) and write a review. Average rating calculated automatically. All reviews displayed in a dedicated section.</p>
+        <div class="badge-row">
+          <span class="badge badge-blue">RatingBar</span>
+          <span class="badge badge-blue">RecyclerView</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#FFF3E0;">📅</div>
+        <h3>Booking System</h3>
+        <p>Select check-in/check-out dates with pickers, specify guest count, send booking requests. Host receives notifications. Booking status tracking (pending/confirmed/cancelled).</p>
+        <div class="badge-row">
+          <span class="badge badge-brown">DatePicker</span>
+          <span class="badge badge-brown">Status Tracking</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#FCE4EC;">❤️</div>
+        <h3>Favorites & Wishlist</h3>
+        <p>Save homestays with one tap. Heart toggle with filled/outline icons. Persistent across sessions — your wishlist is always available.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E8F5E9;">📱</div>
+        <h3>Share & Connect</h3>
+        <p>Share homestay details via system share sheet. Open location directly in Google Maps. Call or WhatsApp the host instantly from the detail screen.</p>
+        <div class="badge-row">
+          <span class="badge badge-green">Share Intent</span>
+          <span class="badge badge-green">Maps Deep Link</span>
+          <span class="badge badge-green">WhatsApp</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#F3E5F5;">🌐</div>
+        <h3>Multi-Language</h3>
+        <p>Full support for English, Hindi (हिन्दी), and Kannada (ಕನ್ನಡ). App auto-detects device locale. All UI strings translated including auth, browsing, and settings.</p>
+        <div class="badge-row">
+          <span class="badge badge-purple">Hindi</span>
+          <span class="badge badge-purple">Kannada</span>
+          <span class="badge badge-purple">Locale Auto-Detect</span>
+        </div>
+      </div>
+
+      <!-- Row 2: Host Features -->
+      <div class="feature-card">
+        <div class="icon" style="background:#E8F5E9;">🏠</div>
+        <h3>Host Dashboard</h3>
+        <p>Manage your listings with quick action cards: View Inquiries, Daily Menu, Add Places. Edit or delete your homestays with confirmation dialogs.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E3F2FD;">🍽️</div>
+        <h3>AI-Powered Menu</h3>
+        <p>Generate daily menus with Gemini AI. Traditional Karnataka dishes auto-suggested. Edit and publish breakfast, lunch, and dinner with descriptions.</p>
+        <div class="badge-row">
+          <span class="badge badge-blue">Gemini AI</span>
+          <span class="badge badge-blue">Auto-Suggest</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#FFF3E0;">🗺️</div>
+        <h3>Nearby Guide Places</h3>
+        <p>Add trekking spots, temples, waterfalls with categories. Guests see them on the detail screen. Tap to open location in Google Maps with directions.</p>
+        <div class="badge-row">
+          <span class="badge badge-brown">Categories</span>
+          <span class="badge badge-brown">Map Direction</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#FCE4EC;">📩</div>
+        <h3>Guest Inquiries</h3>
+        <p>Real-time inquiry management. View messages from guests. Call or WhatsApp guests directly from the inquiry screen.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E8F5E9;">📸</div>
+        <h3>Image Upload</h3>
+        <p>Pick from gallery or camera. Auto-compressed to &lt;500KB. Upload to Firebase Storage. Preview before submitting. Dashed border add-photo UI.</p>
+      </div>
+
+      <!-- Row 3: Admin & Platform -->
+      <div class="feature-card">
+        <div class="icon" style="background:#F3E5F5;">🛡️</div>
+        <h3>Admin Panel</h3>
+        <p>Verify, reject, or delete listings. Filter by All/Verified/Pending. Chip-based filtering. Swipe to refresh. Delete confirmation dialog prevents accidents.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E3F2FD;">👤</div>
+        <h3>Phone Auth + Google Sign-In</h3>
+        <p>OTP-based phone authentication with auto-retry. Google Sign-In with one tap. Secure session persisted via EncryptedSharedPreferences. Role selection (Guest/Host) on first login.</p>
+        <div class="badge-row">
+          <span class="badge badge-blue">Phone OTP</span>
+          <span class="badge badge-blue">Google Sign-In</span>
+          <span class="badge badge-blue">Encrypted Session</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#FFF3E0;">🌙</div>
+        <h3>Dark Mode</h3>
+        <p>Full dark theme with brand colors. Toggle in Settings. Preference persisted across sessions. Auto-applied with Material Components for consistent look.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#FCE4EC;">⚡</div>
+        <h3>App Shortcuts</h3>
+        <p>Quick actions on long-press launcher icon: Browse HomeStays, Add HomeStay, View Inquiries. Android 8+ with shortcut labels and disabled messages.</p>
+        <div class="badge-row">
+          <span class="badge badge-purple">Android 8+</span>
+          <span class="badge badge-purple">3 Shortcuts</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E8F5E9;">🔔</div>
+        <h3>Push Notifications</h3>
+        <p>FCM-based notifications for new inquiries and bookings. Cloud Functions trigger push when data changes. Notification channels for Android 8+. Permission request on Android 13+.</p>
+        <div class="badge-row">
+          <span class="badge badge-green">FCM</span>
+          <span class="badge badge-green">Cloud Functions</span>
+          <span class="badge badge-green">Notification Channels</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E3F2FD;">📍</div>
+        <h3>Location Picker</h3>
+        <p>Interactive Google Maps picker for setting homestay coordinates. Tap to drop a pin, coordinates displayed below map. My Location button for current position.</p>
+        <div class="badge-row">
+          <span class="badge badge-blue">Maps SDK</span>
+          <span class="badge badge-blue">Tap to Pin</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#FFF3E0;">🎨</div>
+        <h3>Material Design 3</h3>
+        <p>Modern UI with Material 3 components, brand colors (green #2E7D32, brown #6D4C41, cream #FFF8E1). Shimmer loading skeletons, smooth transitions, chip filters.</p>
+        <div class="badge-row">
+          <span class="badge badge-brown">Material 3</span>
+          <span class="badge badge-brown">Shimmer</span>
+          <span class="badge badge-brown">Coil Images</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#F3E5F5;">📋</div>
+        <h3>Settings & Profile</h3>
+        <p>Edit name and phone. Dark mode toggle. App version display. Logout with session clear and full back-stack cleanup via popUpTo(0).</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E8F5E9;">📦</div>
+        <h3>Offline Support</h3>
+        <p>Firestore persistence enabled with CACHE_SIZE_UNLIMITED. Data cached locally for offline viewing. Network state observer with online/offline snackbar.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:#E3F2FD;">🤖</div>
+        <h3>CI/CD Pipeline</h3>
+        <p>GitHub Actions auto-builds on every push. JDK 17, Gradle cache, google-services.json from secrets. APK uploaded as build artifact for easy download.</p>
+        <div class="badge-row">
+          <span class="badge badge-blue">GitHub Actions</span>
+          <span class="badge badge-blue">Auto-Build</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SCREENSHOTS ═══ -->
+<section id="screenshots">
+  <div class="container">
+    <div class="section-title">
+      <h2>App Screenshots</h2>
+      <p>Clean, modern UI designed for rural tourism connectivity</p>
+    </div>
+    <div class="screenshots-grid">
+      <div class="screenshot-card">
+        <div class="mockup">🏡</div>
+        <div class="label">Splash Screen</div>
+        <div class="desc">Branded splash with shimmer animation</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">📞</div>
+        <div class="label">Phone Login</div>
+        <div class="desc">OTP authentication with Google Sign-In</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">🎭</div>
+        <div class="label">Role Selection</div>
+        <div class="desc">Choose Guest or Host</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">🔍</div>
+        <div class="label">Browse HomeStays</div>
+        <div class="desc">Search, filters, chip sorting</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">📄</div>
+        <div class="label">Detail View</div>
+        <div class="desc">Photos, menu, reviews, booking</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">⭐</div>
+        <div class="label">Reviews</div>
+        <div class="desc">Rate and review your stay</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">📅</div>
+        <div class="label">Booking</div>
+        <div class="desc">Date pickers and guest count</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">❤️</div>
+        <div class="label">Favorites</div>
+        <div class="desc">Save your wishlist</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">👤</div>
+        <div class="label">Host Dashboard</div>
+        <div class="desc">Quick action cards + listings</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">🍽️</div>
+        <div class="label">Daily Menu</div>
+        <div class="desc">AI-generated meal plans</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">🗺️</div>
+        <div class="label">Nearby Places</div>
+        <div class="desc">Trek, temple, waterfall spots</div>
+      </div>
+      <div class="screenshot-card">
+        <div class="mockup">⚙️</div>
+        <div class="label">Settings</div>
+        <div class="desc">Profile, dark mode, logout</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TECH STACK ═══ -->
+<section id="tech">
+  <div class="container">
+    <div class="section-title">
+      <h2>Built With</h2>
+      <p>Modern Android stack with Firebase backend and AI integration</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <div class="tech-icon">🅺</div>
+        <div class="tech-name">Kotlin</div>
+        <div class="tech-desc">100% Kotlin, coroutines, MVVM</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🔥</div>
+        <div class="tech-name">Firebase</div>
+        <div class="tech-desc">Auth, Firestore, Storage, FCM, Crashlytics</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🤖</div>
+        <div class="tech-name">Gemini AI</div>
+        <div class="tech-desc">AI-powered menu generation</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🎨</div>
+        <div class="tech-name">Material 3</div>
+        <div class="tech-desc">Material Design 3 with custom theming</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🖼️</div>
+        <div class="tech-name">Coil</div>
+        <div class="tech-desc">Image loading with caching</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">📍</div>
+        <div class="tech-name">Google Maps</div>
+        <div class="tech-desc">Maps SDK, location picker</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🧭</div>
+        <div class="tech-name">Navigation</div>
+        <div class="tech-desc">Navigation Component with bottom nav</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">☁️</div>
+        <div class="tech-name">Cloud Functions</div>
+        <div class="tech-desc">Push notification triggers</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🔄</div>
+        <div class="tech-name">CI/CD</div>
+        <div class="tech-desc">GitHub Actions auto-build</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🔒</div>
+        <div class="tech-name">Security</div>
+        <div class="tech-desc">EncryptedSharedPreferences, ProGuard</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">📱</div>
+        <div class="tech-name">Min SDK 26</div>
+        <div class="tech-desc">Android 8.0+ with 95% coverage</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🧪</div>
+        <div class="tech-name">Testing</div>
+        <div class="tech-desc">JUnit, Espresso (setup ready)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DOWNLOAD ═══ -->
+<section id="download" style="padding-bottom: 100px;">
+  <div class="container">
+    <div class="download-section">
+      <h2>Get Namma HomeStay</h2>
+      <p style="max-width: 500px; margin-left: auto; margin-right: auto;">
+        Download the APK or browse the source code. Contribute, report issues, or fork the project.
+      </p>
+      <div class="btn-group">
+        <a href="https://github.com/VijayTech35/namma-homestay-android/releases" target="_blank" class="btn btn-primary">
+          📦 Download APK
+        </a>
+        <a href="https://github.com/VijayTech35/namma-homestay-android" target="_blank" class="btn btn-outline">
+          💻 View Source
+        </a>
+        <a href="https://github.com/VijayTech35/namma-homestay-android/issues" target="_blank" class="btn btn-outline">
+          🐛 Report Issue
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="#screenshots">Screenshots</a>
+    <a href="#tech">Tech Stack</a>
+    <a href="#download">Download</a>
+    <a href="https://github.com/VijayTech35/namma-homestay-android" target="_blank">GitHub</a>
+  </div>
+  <p>Made with ❤️ for Karnataka's rural tourism</p>
+  <p style="margin-top: 4px;">&copy; 2026 Namma HomeStay &middot; Open Source &middot; <a href="https://github.com/VijayTech35/namma-homestay-android/blob/main/README.md">Documentation</a></p>
+</footer>
+
+<!-- ═══ NAV SCROLL HIGHLIGHT ═══ -->
+<script>
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY + 100;
+    navLinks.forEach(link => {
+      const section = document.querySelector(link.getAttribute('href'));
+      if (section && scrollY >= section.offsetTop && scrollY < section.offsetTop + section.offsetHeight) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
 </body>
 </html>
